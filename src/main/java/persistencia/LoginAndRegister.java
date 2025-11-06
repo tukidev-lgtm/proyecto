@@ -33,9 +33,11 @@ public class LoginAndRegister {
         ps.setString(2, u.getPswd());
         
         ps.executeUpdate();
-    } catch (SQLException e){ throw new Exception("Error al registrar usuario"); 
-    
-    }
+    } catch (SQLException e) {
+    e.printStackTrace();
+    throw new Exception("Error al registrar usuario: " + e.getMessage());
+}
+
     
     }
 }

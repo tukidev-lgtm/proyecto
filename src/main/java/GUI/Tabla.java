@@ -11,6 +11,7 @@ import java.sql.ResultSetMetaData;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import persistencia.Conexion;
+import persistencia.ReporteInasistenciaDao;
 
 /**
  *
@@ -40,6 +41,9 @@ public class Tabla extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         btnAtras = new javax.swing.JButton();
+        btnBorrar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        txtBorrar = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -91,21 +95,54 @@ public class Tabla extends javax.swing.JFrame {
             }
         });
 
+        btnBorrar.setText("Eliminar");
+        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrarActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Ingresa un ID para eliminar");
+
+        txtBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBorrarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 619, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(100, 100, 100)
+                        .addComponent(btnBorrar)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(147, 147, 147)
+                        .addComponent(jLabel1)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBorrar)
+                    .addComponent(txtBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(51, 51, 51))
         );
 
         pack();
@@ -117,6 +154,28 @@ public class Tabla extends javax.swing.JFrame {
                 ingresarVentana.setVisible(true);
                 this.dispose();
     }//GEN-LAST:event_btnAtrasActionPerformed
+
+    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
+       btnBorrar.addActionListener(e -> {
+    try {
+        int id = Integer.parseInt(txtBorrar.getText());
+        ReporteInasistenciaDao dao = new ReporteInasistenciaDao();
+        dao.eliminarInasistencia(id);
+        JOptionPane.showMessageDialog(null, "✅ Reporte eliminado correctamente");
+        // Actualizar tabla si corresponde
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(null, "⚠️ El ID debe ser un número entero");
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(null, "❌ " + ex.getMessage());
+    }
+    cargarTabla();
+});
+
+    }//GEN-LAST:event_btnBorrarActionPerformed
+
+    private void txtBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBorrarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBorrarActionPerformed
 
     private void cargarTabla() {
     DefaultTableModel modelo = new DefaultTableModel();
@@ -156,7 +215,10 @@ public class Tabla extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAtras;
+    private javax.swing.JButton btnBorrar;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField txtBorrar;
     // End of variables declaration//GEN-END:variables
 }
